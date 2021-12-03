@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="task_repository" class="AppBundle\Model\TaskRepository" public="true">
+            <argument>%kernel.cache_dir%</argument>
+        </service>
+        <service id="task_param_converter" class="AppBundle\ParamConverter\TaskParamConverter">
+            <argument type="service" id="task_repository"/>
+            <tag name="request.param_converter" converter="task_param_converter"/>
+        </service>
+        <service id="api_key_authenticator" class="AppBundle\Security\ApiKeyAuthenticator">
+        </service>
+        <!-- @TODO: Pass two arrays: [12345, 56789] and ['qwerty', 'asdfgh'] to this service -->
+        <service id="api_key_store" class="AppBundle\Security\ApiKeyStore">
+            <argument key="$readKeys" type="collection">
+                <argument>12345</argument>
+                <argument>56789</argument>
+            </argument>
+            <argument key="$writeKeys" type="collection">
+                <argument>qwerty</argument>
+                <argument>asdfgh</argument>
+            </argument>
+        </service>
+        <!-- @TODO: Pass api_key_store service to this service -->
+        <service id="api_key_user_provider" class="AppBundle\Security\ApiKeyUserProvider">
+            <argument type="service" id="api_key_store" />
+        </service>
+    </services>
+</container>

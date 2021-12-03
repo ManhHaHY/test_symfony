@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Symfony API" default="build" basedir=".">
+
+    <target name="build">
+        <phingcall target="composerInstall"/>
+        <phingcall target="testAll"/>
+    </target>
+
+    <target name="composerInstall">
+        <exec passthru="true" command="php --version 1>&amp;2"/>
+        <exec passthru="true"
+            checkreturn="false"
+            command="cd ${project.basedir}; COMPOSER_MEMORY_LIMIT=-1 composer install --no-interaction"/>
+    </target>
+
+    <target name="testAll">
+        <exec passthru="true"
+            checkreturn="false"
+            command="${project.basedir}/vendor/bin/phpunit"/>
+    </target>
+
+</project>

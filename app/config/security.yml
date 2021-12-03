@@ -1,0 +1,23 @@
+security:
+    providers:
+        api_key_user_provider:
+            id: api_key_user_provider
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        secured_area:
+            pattern: ^/
+            stateless: true
+            simple_preauth:
+                authenticator: api_key_authenticator
+            provider: api_key_user_provider
+    access_control:
+        - { path: ^/api/tasks, roles: [ROLE_READ, ROLE_WRITE], methods: [GET]}
+        - { path: ^/api/tasks, roles: ROLE_WRITE, methods: [POST,PUT,DELETE]}
+        - { path: ^/api, roles: ROLE_READ }
+
+# TODO Configure security:
+# - to access control entry `- { path: ^/api/tasks, roles: ROLE_WRITE }` add requirement to make it work only for methods POST, PUT and DELETE
+# - define role hierarchy to be `ROLE_WRITE: ROLE_READ`

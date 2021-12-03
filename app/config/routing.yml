@@ -1,0 +1,8 @@
+api:
+    type:     rest
+    prefix:   /api
+    resource: "@AppBundle/Resources/config/routing.yml"
+
+app:
+    resource: "@AppBundle/Controller/DefaultController.php"
+    type:     annotation
