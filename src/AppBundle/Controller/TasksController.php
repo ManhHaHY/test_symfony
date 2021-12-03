@@ -23,7 +23,6 @@ class TasksController extends FOSRestController
 
     public function deleteTaskAction(Task $task) : View
     {
-        dump($task);die;
         $this->get('task_repository')->delete($task);
         return new View([], Response::HTTP_OK);
     }
