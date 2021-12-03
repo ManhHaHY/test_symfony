@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace AppBundle\ParamConverter;
 
-use http\Exception\InvalidArgumentException;
 use AppBundle\Model\{Task,TaskRepository};
 use Sensio\Bundle\FrameworkExtraBundle\{Configuration\ParamConverter,Request\ParamConverter\ParamConverterInterface};
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +44,7 @@ class TaskParamConverter implements ParamConverterInterface
          * - return true if everything went ok
          */
         if ($request->attributes->get('task') == null){
-            throw new InvalidArgumentException('Not have task.');
+            throw new \InvalidArgumentException('Not have task.');
         }
         $id = $request->attributes->get('task');
         $task = $this->taskRepository->findById($id);
@@ -54,8 +53,7 @@ class TaskParamConverter implements ParamConverterInterface
             throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException();
         }
 
-        $task = new Task();
-        $this->taskRepository->save($task);
+        $request->attributes->set($configuration->getName(), $task);
 
         return true;
     }
