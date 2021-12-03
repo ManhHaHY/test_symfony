@@ -21,8 +21,9 @@ class TasksController extends FOSRestController
         return $task;
     }
 
-    public function deleteTaskAction(Task $task) : View
+    public function deleteTaskAction(String $id) : View
     {
+        $task = $this->get('task_repository')->findById($id);
         $this->get('task_repository')->delete($task);
         return new View([], Response::HTTP_OK);
     }
@@ -41,8 +42,9 @@ class TasksController extends FOSRestController
         return $this->processTask(new Task(), $request, 'POST', Response::HTTP_CREATED);
     }
 
-    public function putTaskAction(Task $task, Request $request) : View
+    public function putTaskAction(String $id, Request $request) : View
     {
+        $task = $this->get('task_repository')->findById($id);
         return $this->processTask($task, $request, 'PUT', Response::HTTP_OK);
     }
 
