@@ -16,7 +16,7 @@ class TasksController extends FOSRestController
      * @TODO Add cache annotation
      * @Cache(expires="+60 seconds", public=false)
      */
-    public function getTaskAction($id) : Task
+    public function getTaskAction(String $id) : Task
     {
         $task = $this->get('task_repository')->findById($id);
         return $task;
